@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#Improve speed to snapshot.debian.org
+if [ ! -e "/run/live/medium/live" ]; then
+    echo '193.62.202.27 snapshot.debian.org' >> /etc/hosts
+
+    
+    #Configure timeshift
+    if [ "$(grep btrfs /etc/fstab)" != "" ]; then
+        timeshift --btrfs
+        sed -i 's|"schedule_daily" : "false"|"schedule_daily" : "true"|g;s|"count_daily" : "5"|"count_daily" : "7"|g' /etc/timeshift.json
+        timeshift --check
+    fi
+
+#Disable first boot
+dpkg -P big-first-boot
+    
+fi
+
+
