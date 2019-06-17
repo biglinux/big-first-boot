@@ -1,5 +1,0 @@
-a6d65867da1329d44caa3139d0363bdd  DEBIAN/postinst
-d41d8cd98f00b204e9800998ecf8427e  DEBIAN/md5sums
-20802adecb401abe631eb574da6d5a90  DEBIAN/control
-b06b4525da7cb7bbda200dc454dee7bf  usr/bin/big-first-boot
-7726119fa81bbe64f1e718fe651a32c2  etc/systemd/system/big-first-boot.service

@@ -5,5 +5,5 @@ Architecture: all
 Maintainer: Your Name <your@mail>
 Section: admin
 Priority: optional
-Installed-Size:20
+Installed-Size:244
 Description: Describe your package
