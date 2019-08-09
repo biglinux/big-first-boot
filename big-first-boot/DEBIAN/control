@@ -1,9 +1,9 @@
 Package: big-first-boot
-Version: 1.0.0-1big1
+Version: 1.0.0-1big2
 Depends:
 Architecture: all
 Maintainer: Your Name <your@mail>
 Section: admin
 Priority: optional
-Installed-Size:244
+Installed-Size:24
 Description: Describe your package
