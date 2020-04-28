@@ -16,6 +16,7 @@ if [ ! -e "/rofs" ]; then
 #Disable first boot
 dpkg -P big-first-boot
 
+    # Fix dpi
     if [ "$(cat /proc/cmdline | grep "fixdpi")" != "" ]; then
             nvidia-xconfig --no-use-edid-dpi
     fi
@@ -33,6 +34,11 @@ else
         modprobe nvidia-uvm
         modprobe nvidia-drm
         modprobe nvidia
+
+        # Fix to nvidia prime
+        prime-select on-demand
+        
+        # Fix dpi
         if [ "$(cat /proc/cmdline | grep "fixdpi")" != "" ]; then
             nvidia-xconfig --no-use-edid-dpi
         fi
