@@ -1,9 +1,9 @@
 Package: big-first-boot
-Version: 1.0.0-1big2
+Version: 1.0.0-1big4
 Depends:
 Architecture: all
-Maintainer: Your Name <your@mail>
+Maintainer: Bruno Goncalves <www.biglinux.com.br>
 Section: admin
 Priority: optional
 Installed-Size:24
-Description: Describe your package
+Description: make first boot configuration

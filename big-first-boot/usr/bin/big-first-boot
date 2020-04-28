@@ -9,7 +9,10 @@ if [ ! -e "/rofs" ]; then
         sed -i 's|"schedule_daily" : "false"|"schedule_daily" : "true"|g;s|"count_daily" : "5"|"count_daily" : "7"|g' /etc/timeshift.json
         timeshift --check
     fi
-
+    
+    # Fix to nvidia prime
+    prime-select on-demand
+    
 #Disable first boot
 dpkg -P big-first-boot
     
