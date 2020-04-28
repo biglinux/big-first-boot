@@ -1,6 +1,6 @@
 3cf918272ffa5de195752d73f3da3e5e  DEBIAN/debian-binary
 d41d8cd98f00b204e9800998ecf8427e  DEBIAN/md5sums
 a6d65867da1329d44caa3139d0363bdd  DEBIAN/postinst
-7c58733f4d6162a6c8447d64295a53d5  DEBIAN/control
+c8a56501b645aae929fcddc4231cccda  DEBIAN/control
 7726119fa81bbe64f1e718fe651a32c2  etc/systemd/system/big-first-boot.service
-4b10f570130c4bbc68dba0cea757a587  usr/bin/big-first-boot
+458ed4b6738400c7159e898a476c5963  usr/bin/big-first-boot
