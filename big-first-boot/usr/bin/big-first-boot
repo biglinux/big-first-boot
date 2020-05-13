@@ -10,6 +10,9 @@ if [ ! -e "/rofs" ]; then
         timeshift --check
     fi
     
+    # fix grub in uefi + cryptography
+    sed -i 's|splashquiet|splash quiet|g' /etc/default/grub
+    
     # Fix to nvidia prime
     prime-select on-demand
     
@@ -29,14 +32,18 @@ else
 
         apt -y -o APT::Install-Recommends=true install $(nvidia-detector)
 
+        
+        # Fix to nvidia prime
+        prime-select on-demand
+
+        
         #modprobe nvidiafb
         #modprobe nvidia-modeset
         modprobe nvidia-uvm
         modprobe nvidia-drm
         modprobe nvidia
 
-        # Fix to nvidia prime
-        prime-select on-demand
+
         
         # Fix dpi
         if [ "$(cat /proc/cmdline | grep "fixdpi")" != "" ]; then
