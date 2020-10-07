@@ -5,6 +5,4 @@ set -e
     systemctl daemon-reload
     systemctl enable big-first-boot.service
 
-
-
 exit 0

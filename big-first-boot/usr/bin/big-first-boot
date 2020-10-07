@@ -15,7 +15,11 @@ if [ ! -e "/rofs" ]; then
     
     # Fix to nvidia prime
     prime-select on-demand
-    
+
+	# Fix grub theme
+	cd /usr/share/grub-bgrt/
+	./install.sh
+
 #Disable first boot
 dpkg -P big-first-boot
 
@@ -31,19 +35,15 @@ else
         mv /usr/src/linux-headers-*xanmod* /usr/
 
         apt -y -o APT::Install-Recommends=true install $(nvidia-detector)
-
         
         # Fix to nvidia prime
         prime-select on-demand
-
         
         #modprobe nvidiafb
         #modprobe nvidia-modeset
         modprobe nvidia-uvm
         modprobe nvidia-drm
         modprobe nvidia
-
-
         
         # Fix dpi
         if [ "$(cat /proc/cmdline | grep "fixdpi")" != "" ]; then
