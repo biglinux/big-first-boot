@@ -1,55 +1,55 @@
 #!/bin/bash
 
-if [ ! -e "/rofs" ]; then
+if [ ! -e "/livefs-pkgs.txt" ]; then
 
     
     #Configure timeshift
     if [ "$(grep btrfs /etc/fstab)" != "" ]; then
         timeshift --btrfs
-        sed -i 's|"schedule_daily" : "false"|"schedule_daily" : "true"|g;s|"count_daily" : "5"|"count_daily" : "7"|g' /etc/timeshift.json
+        sed -i 's|"schedule_daily" : "false"|"schedule_daily" : "true"|g' /etc/timeshift/default.json
         timeshift --check
     fi
     
     # fix grub in uefi + cryptography
-    sed -i 's|splashquiet|splash quiet|g' /etc/default/grub
+    #sed -i 's|splashquiet|splash quiet|g' /etc/default/grub
     
     # Fix to nvidia prime
-    prime-select on-demand
+    #prime-select on-demand
 
 	# Fix grub theme
-	cd /usr/share/grub-bgrt/
-	./install.sh
+	#cd /usr/share/grub-bgrt/
+	#./install.sh
 
 #Disable first boot
-dpkg -P big-first-boot
+pacman -R --noconfirm big-first-boot
 
-    # Fix dpi
-    if [ "$(cat /proc/cmdline | grep "fixdpi")" != "" ]; then
-            nvidia-xconfig --no-use-edid-dpi
-    fi
-
-else
-
-    if [ "$(cat /proc/cmdline | grep "nouveau.modeset=0 i915.modeset=0")" != "" ]; then
-
-        mv /usr/src/linux-headers-*xanmod* /usr/
-
-        apt -y -o APT::Install-Recommends=true install $(nvidia-detector)
-        
-        # Fix to nvidia prime
-        prime-select on-demand
-        
-        #modprobe nvidiafb
-        #modprobe nvidia-modeset
-        modprobe nvidia-uvm
-        modprobe nvidia-drm
-        modprobe nvidia
-        
-        # Fix dpi
-        if [ "$(cat /proc/cmdline | grep "fixdpi")" != "" ]; then
-            nvidia-xconfig --no-use-edid-dpi
-        fi
-    fi
+#     # Fix dpi
+#     if [ "$(cat /proc/cmdline | grep "fixdpi")" != "" ]; then
+#             nvidia-xconfig --no-use-edid-dpi
+#     fi
+# 
+# else
+# 
+#     if [ "$(cat /proc/cmdline | grep "nouveau.modeset=0 i915.modeset=0")" != "" ]; then
+# 
+#         mv /usr/src/linux-headers-*xanmod* /usr/
+# 
+#         apt -y -o APT::Install-Recommends=true install $(nvidia-detector)
+#         
+#         # Fix to nvidia prime
+#         prime-select on-demand
+#         
+#         #modprobe nvidiafb
+#         #modprobe nvidia-modeset
+#         modprobe nvidia-uvm
+#         modprobe nvidia-drm
+#         modprobe nvidia
+#         
+#         # Fix dpi
+#         if [ "$(cat /proc/cmdline | grep "fixdpi")" != "" ]; then
+#             nvidia-xconfig --no-use-edid-dpi
+#         fi
+#     fi
 fi
 
 
