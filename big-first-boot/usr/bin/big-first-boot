@@ -1,14 +1,35 @@
 #!/bin/bash
 
+# Fix some slowdown in network
+systemctl stop NetworkManager-wait-online
+systemctl disable NetworkManager-wait-online
+
 if [ ! -e "/livefs-pkgs.txt" ]; then
 
     
-    #Configure timeshift
-    if [ "$(grep btrfs /etc/fstab)" != "" ]; then
+    #Enable automatic update grub and configure timeshift
+     if [ "$(grep btrfs /etc/fstab)" != "" ]; then
+        sed -i 's|^ *\bPathModified\b *=.*|PathModified=/run/timeshift/backup/timeshift-btrfs/snapshots|' /usr/lib/systemd/system/grub-btrfs.path
+        systemctl reenable grub-btrfs.path
         timeshift --btrfs
-        sed -i 's|"schedule_daily" : "false"|"schedule_daily" : "true"|g' /etc/timeshift/default.json
+        sed -i 's|"schedule_daily" : "false"|"schedule_daily" : "true"|g;s|"btrfs_mode" : "false"|"btrfs_mode" : "true"|g' /etc/timeshift/default.json
+        sed -i 's|"schedule_daily" : "false"|"schedule_daily" : "true"|g;s|"btrfs_mode" : "false"|"btrfs_mode" : "true"|g' /etc/timeshift/timeshift.json
         timeshift --check
+     fi
+    
+    vbox=$(lspci | grep -i "virtualbox")
+    qemu=$(lspci | grep -i "virtio")
+    if [ -z "$vbox" ]; then
+        rm_vbox="virtualbox-guest-utils"
+        rm_pwconfig="pipewire-biglinux-config-git"
     fi
+
+    if [ -z "$qemu" ]; then
+        rm_spice="spice-vdagent spice-vdagent-autostart-kde"
+    fi
+
+    pacman -R --noconfirm linux414-headers
+    pacman -R --noconfirm big-first-boot $rm_spice $rm_vbox $rm_pwconfig
     
     # fix grub in uefi + cryptography
     #sed -i 's|splashquiet|splash quiet|g' /etc/default/grub
@@ -20,8 +41,8 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
 	#cd /usr/share/grub-bgrt/
 	#./install.sh
 
-#Disable first boot
-pacman -R --noconfirm big-first-boot
+    #Disable first boot
+
 
 #     # Fix dpi
 #     if [ "$(cat /proc/cmdline | grep "fixdpi")" != "" ]; then
