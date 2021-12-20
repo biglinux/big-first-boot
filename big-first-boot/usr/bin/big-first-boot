@@ -32,6 +32,9 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
     pacman -R --noconfirm linux414-headers
     pacman -R --noconfirm big-first-boot $rm_spice $rm_vbox $rm_pwconfig
     
+    # Change clock
+    timedatectl set-local-rtc 1 --adjust-system-clock
+    
     # fix grub in uefi + cryptography
     #sed -i 's|splashquiet|splash quiet|g' /etc/default/grub
     
