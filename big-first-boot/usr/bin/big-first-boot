@@ -11,6 +11,7 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
      if [ "$(grep btrfs /etc/fstab)" != "" ]; then
         sed -i 's|^ *\bPathModified\b *=.*|PathModified=/run/timeshift/backup/timeshift-btrfs/snapshots|' /usr/lib/systemd/system/grub-btrfs.path
         systemctl reenable grub-btrfs.path
+        systemctl start grub-btrfs
         timeshift --btrfs
         sed -i 's|"schedule_daily" : "false"|"schedule_daily" : "true"|g;s|"btrfs_mode" : "false"|"btrfs_mode" : "true"|g' /etc/timeshift/default.json
         sed -i 's|"schedule_daily" : "false"|"schedule_daily" : "true"|g;s|"btrfs_mode" : "false"|"btrfs_mode" : "true"|g;s|"btrfs_use_qgroup" : "true"|"btrfs_use_qgroup" : "false"|g' /etc/timeshift/timeshift.json
@@ -32,9 +33,7 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
     pacman -R --noconfirm linux414-headers
     pacman -R --noconfirm big-first-boot $rm_spice $rm_vbox $rm_pwconfig
     
-    # Change clock
-    timedatectl set-local-rtc 1 --adjust-system-clock
-    
+   
     # fix grub in uefi + cryptography
     #sed -i 's|splashquiet|splash quiet|g' /etc/default/grub
     
