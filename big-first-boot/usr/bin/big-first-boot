@@ -16,7 +16,6 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
         sed -i 's|"schedule_daily" : "false"|"schedule_daily" : "true"|g;s|"btrfs_mode" : "false"|"btrfs_mode" : "true"|g' /etc/timeshift/default.json
         sed -i 's|"schedule_daily" : "false"|"schedule_daily" : "true"|g;s|"btrfs_mode" : "false"|"btrfs_mode" : "true"|g;s|"btrfs_use_qgroup" : "true"|"btrfs_use_qgroup" : "false"|g' /etc/timeshift/timeshift.json
         timeshift --check
-        btrfs quota disable /
      fi
     
     vbox=$(lspci | grep -i "virtualbox")
