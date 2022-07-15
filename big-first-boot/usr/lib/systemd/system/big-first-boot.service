@@ -1,11 +1,10 @@
 [Unit]
-Before=sddm.service
+Description=Prepare the system after installation
+Before=display-manager.service
 
 [Service]
-Type=idle
+Type=oneshot
 ExecStart=/usr/bin/big-first-boot
 
-
-
 [Install]
-WantedBy=graphical.target
+WantedBy=multi-user.target
