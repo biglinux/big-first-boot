@@ -2,7 +2,10 @@
 Before=sddm.service
 
 [Service]
+Type=idle
 ExecStart=/usr/bin/big-first-boot
+
+
 
 [Install]
 WantedBy=graphical.target
