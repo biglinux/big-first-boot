@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Fix some slowdown in network
-systemctl stop NetworkManager-wait-online
-systemctl disable NetworkManager-wait-online
+# systemctl stop NetworkManager-wait-online
+# systemctl disable NetworkManager-wait-online
 
 if [ ! -e "/livefs-pkgs.txt" ]; then
 
