@@ -33,6 +33,10 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
     pacman -R --noconfirm $rm_vbox
     pacman -R --noconfirm big-first-boot
     
+    
+    # mostrar * ao digitar senha no terminal
+    echo "Defaults pwfeedback" | tee -a /etc/sudoers
+    
    
     # fix grub in uefi + cryptography
     #sed -i 's|splashquiet|splash quiet|g' /etc/default/grub
