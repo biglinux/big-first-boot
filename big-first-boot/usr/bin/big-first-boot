@@ -80,4 +80,8 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
 #     fi
 fi
 
-
+#copy keys
+mkdir -p /etc/pacman.d/gnupg/
+cp -f /usr/share/pacman/keyrings/pubring.gpg /etc/pacman.d/gnupg/
+cp -f /usr/share/pacman/keyrings/trustdb.gpg /etc/pacman.d/gnupg/
+pacman -R biglinux-key
