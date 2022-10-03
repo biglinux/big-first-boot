@@ -84,4 +84,4 @@ fi
 mkdir -p /etc/pacman.d/gnupg/
 cp -f /usr/share/pacman/keyrings/pubring.gpg /etc/pacman.d/gnupg/
 cp -f /usr/share/pacman/keyrings/trustdb.gpg /etc/pacman.d/gnupg/
-pacman -R biglinux-key
+pacman -R biglinux-key --no-confirm
