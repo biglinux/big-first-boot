@@ -27,6 +27,12 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
     if [ -z "$qemu" ]; then
         rm_spice="spice-vdagent spice-vdagent-autostart-kde"
     fi
+    
+    #copy keys
+    mkdir -p /etc/pacman.d/gnupg/
+    cp -f /usr/share/pacman/keyrings/pubring.gpg /etc/pacman.d/gnupg/
+    cp -f /usr/share/pacman/keyrings/trustdb.gpg /etc/pacman.d/gnupg/
+    pacman -R --noconfirm biglinux-key
 
     #pacman -R --noconfirm linux414-headers
     pacman -R --noconfirm $rm_spice
@@ -80,8 +86,3 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
 #     fi
 fi
 
-#copy keys
-mkdir -p /etc/pacman.d/gnupg/
-cp -f /usr/share/pacman/keyrings/pubring.gpg /etc/pacman.d/gnupg/
-cp -f /usr/share/pacman/keyrings/trustdb.gpg /etc/pacman.d/gnupg/
-pacman -R --noconfirm biglinux-key
