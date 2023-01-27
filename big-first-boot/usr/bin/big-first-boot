@@ -43,6 +43,7 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
     pacman -R --noconfirm $rm_vbox
     pacman -R --noconfirm $rm_virt
     pacman -R --noconfirm big-first-boot
+    pacman -R --noconfirm biglinux-key
     
     
     # mostrar * ao digitar senha no terminal
