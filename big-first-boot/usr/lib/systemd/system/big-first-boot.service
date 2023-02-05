@@ -1,7 +1,6 @@
 [Unit]
 Description=Prepare the system after installation
 Before=display-manager.service
-After=biglinux-key.service
 
 [Service]
 Type=oneshot
