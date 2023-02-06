@@ -1,7 +1,7 @@
 [Unit]
 Description=Prepare the system after installation
 Before=display-manager.service auto-unlock-pacman.service
-After=pacman-init.service
+After=biginux-key.service
 
 [Service]
 Type=oneshot
