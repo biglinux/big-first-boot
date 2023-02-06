@@ -8,6 +8,7 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
 
     #copy keys
     biglinux-key.sh
+    systemctl enable auto-unlock-pacman
     
     #Enable automatic update grub and configure timeshift
      if [ "$(grep btrfs /etc/fstab)" != "" ]; then
