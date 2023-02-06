@@ -6,6 +6,8 @@
 
 if [ ! -e "/livefs-pkgs.txt" ]; then
 
+    #copy keys
+    biglinux-key.sh
     
     #Enable automatic update grub and configure timeshift
      if [ "$(grep btrfs /etc/fstab)" != "" ]; then
@@ -31,9 +33,7 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
     if [ -z "$vbox" -a -z "$qemu" ];then
         rm_virt="open-vm-tools qemu-guest-agent libdnet gdk-pixbuf-xlib uriparser libmspack xf86-input-vmmouse"
     fi
-    
-    #copy keys
-    biglinux-key.sh
+
 
 
     #pacman -R --noconfirm linux414-headers
