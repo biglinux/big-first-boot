@@ -33,9 +33,7 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
     fi
     
     #copy keys
-    test ! -d /etc/pacman.d/gnupg && mkdir -p /etc/pacman.d/gnupg
-    cp -f /usr/share/pacman/keyrings/pubring.gpg /etc/pacman.d/gnupg/pubring.gpg
-    cp -f /usr/share/pacman/keyrings/trustdb.gpg /etc/pacman.d/gnupg/trustdb.gpg
+    biglinux-key.sh
 
 
     #pacman -R --noconfirm linux414-headers
