@@ -6,10 +6,6 @@
 
 if [ ! -e "/livefs-pkgs.txt" ]; then
 
-    #copy keys
-    biglinux-key.sh
-    systemctl enable auto-unlock-pacman
-    
     #Enable automatic update grub and configure timeshift
      if [ "$(grep btrfs /etc/fstab)" != "" ]; then
         sed -i 's|^ *\bPathModified\b *=.*|PathModified=/run/timeshift/backup/timeshift-btrfs/snapshots|' /usr/lib/systemd/system/grub-btrfs.path
@@ -42,52 +38,10 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
     pacman -R --noconfirm $rm_vbox
     pacman -R --noconfirm $rm_virt
     pacman -R --noconfirm big-first-boot
-    pacman -R --noconfirm biglinux-key
     
     
     # mostrar * ao digitar senha no terminal
     echo "Defaults pwfeedback" | tee -a /etc/sudoers
     
-   
-    # fix grub in uefi + cryptography
-    #sed -i 's|splashquiet|splash quiet|g' /etc/default/grub
-    
-    # Fix to nvidia prime
-    #prime-select on-demand
-
-	# Fix grub theme
-	#cd /usr/share/grub-bgrt/
-	#./install.sh
-
-    #Disable first boot
-
-
-#     # Fix dpi
-#     if [ "$(cat /proc/cmdline | grep "fixdpi")" != "" ]; then
-#             nvidia-xconfig --no-use-edid-dpi
-#     fi
-# 
-# else
-# 
-#     if [ "$(cat /proc/cmdline | grep "nouveau.modeset=0 i915.modeset=0")" != "" ]; then
-# 
-#         mv /usr/src/linux-headers-*xanmod* /usr/
-# 
-#         apt -y -o APT::Install-Recommends=true install $(nvidia-detector)
-#         
-#         # Fix to nvidia prime
-#         prime-select on-demand
-#         
-#         #modprobe nvidiafb
-#         #modprobe nvidia-modeset
-#         modprobe nvidia-uvm
-#         modprobe nvidia-drm
-#         modprobe nvidia
-#         
-#         # Fix dpi
-#         if [ "$(cat /proc/cmdline | grep "fixdpi")" != "" ]; then
-#             nvidia-xconfig --no-use-edid-dpi
-#         fi
-#     fi
 fi
 
