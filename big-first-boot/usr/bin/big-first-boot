@@ -8,13 +8,20 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
 
     #Enable automatic update grub and configure timeshift
      if [ "$(grep btrfs /etc/fstab)" != "" ]; then
-        sed -i 's|^ *\bPathModified\b *=.*|PathModified=/run/timeshift/backup/timeshift-btrfs/snapshots|' /usr/lib/systemd/system/grub-btrfs.path
-        systemctl reenable grub-btrfs.path
-        systemctl start grub-btrfs
+#         sed -i 's|^ *\bPathModified\b *=.*|PathModified=/run/timeshift/backup/timeshift-btrfs/snapshots|' /usr/lib/systemd/system/grub-btrfs.path
+#         systemctl reenable grub-btrfs.path
+#         systemctl start grub-btrfs
+
+        sed -i '/ExecStart=/s/.*/ExecStart=\/usr\/bin\/grub-btrfsd --syslog --timeshift-auto/' /usr/lib/systemd/system/grub-btrfsd.service
+        systemctl enable --now grub-btrfsd.service
+        
         timeshift --btrfs
         sed -i 's|"schedule_daily" : "false"|"schedule_daily" : "true"|g;s|"btrfs_mode" : "false"|"btrfs_mode" : "true"|g' /etc/timeshift/default.json
         sed -i 's|"schedule_daily" : "false"|"schedule_daily" : "true"|g;s|"btrfs_mode" : "false"|"btrfs_mode" : "true"|g;s|"btrfs_use_qgroup" : "true"|"btrfs_use_qgroup" : "false"|g' /etc/timeshift/timeshift.json
         timeshift --check
+        if [ "$(grep grub-btrfs /boot/grub/grub.cfg)" != "" ]; then
+            /etc/grub.d/41_snapshots-btrfs
+        fi
      fi
     
     vbox=$(lspci | grep -i "virtualbox")
