@@ -51,5 +51,17 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
     # mostrar * ao digitar senha no terminal
     echo "Defaults pwfeedback" | tee -a /etc/sudoers
     
+    # Ativar render-menu-options
+    # User
+    for user in $(awk -F':' '{ if ($3 >= 1000 && $1 != "nobody") print $1 }' /etc/passwd); do
+        if [ -e /home/"${user}"/.local/share/applications ];then
+            /usr/share/render-menu-options/render-menu-options.sh "/home/"${user}"/.local/share/applications/"
+        fi
+    done
+    # Nativos
+    /usr/share/render-menu-options/render-menu-options.sh '/usr/share/applications/'
+    # Flatpak
+    /usr/share/render-menu-options/render-menu-options.sh '/var/lib/flatpak/exports/share/applications'
+    
 fi
 
