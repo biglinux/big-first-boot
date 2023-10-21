@@ -25,43 +25,45 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
         fi
      fi
     
-    vbox=$(lspci | grep -i "virtualbox")
-    qemu=$(lspci | grep -i "virtio")
-    if [ -z "$vbox" ]; then
-        rm_vbox="virtualbox-guest-utils"
-    fi
+    # only in x86_64
+    if [ "$(uname -m)" = "x86_64" ];then
+        vbox=$(lspci | grep -i "virtualbox")
+        qemu=$(lspci | grep -i "virtio")
+        if [ -z "$vbox" ]; then
+            rm_vbox="virtualbox-guest-utils"
+        fi
 
-    if [ -z "$qemu" ]; then
-        rm_spice="spice-vdagent spice-vdagent-autostart-kde"
-    fi
+        if [ -z "$qemu" ]; then
+            rm_spice="spice-vdagent spice-vdagent-autostart-kde"
+        fi
+        
+        if [ -z "$vbox" -a -z "$qemu" ];then
+            rm_virt="open-vm-tools qemu-guest-agent libdnet gdk-pixbuf-xlib uriparser libmspack xf86-input-vmmouse"
+        fi
+
+        #pacman -R --noconfirm linux414-headers
+        pacman -R --noconfirm $rm_spice
+        pacman -R --noconfirm $rm_vbox
+        pacman -R --noconfirm $rm_virt
+        pacman -R --noconfirm big-first-boot
     
-    if [ -z "$vbox" -a -z "$qemu" ];then
-        rm_virt="open-vm-tools qemu-guest-agent libdnet gdk-pixbuf-xlib uriparser libmspack xf86-input-vmmouse"
-    fi
-
-
-
-    #pacman -R --noconfirm linux414-headers
-    pacman -R --noconfirm $rm_spice
-    pacman -R --noconfirm $rm_vbox
-    pacman -R --noconfirm $rm_virt
-    pacman -R --noconfirm big-first-boot
+        # Ativar render-menu-options
+        # User
+        for user in $(awk -F':' '{ if ($3 >= 1000 && $1 != "nobody") print $1 }' /etc/passwd); do
+            if [ -e /home/"${user}"/.local/share/applications ];then
+                /usr/share/render-menu-options/render-menu-options.sh "/home/"${user}"/.local/share/applications/"
+            fi
+        done
+        # Nativos
+        /usr/share/render-menu-options/render-menu-options.sh '/usr/share/applications/'
+        # Flatpak
+        /usr/share/render-menu-options/render-menu-options.sh '/var/lib/flatpak/exports/share/applications'
     
+    # only in ARM64
+    # elif [ "$(uname -m)" = "aarch64" ];then
+    fi
     
     # mostrar * ao digitar senha no terminal
     echo "Defaults pwfeedback" | tee -a /etc/sudoers
-    
-    # Ativar render-menu-options
-    # User
-    for user in $(awk -F':' '{ if ($3 >= 1000 && $1 != "nobody") print $1 }' /etc/passwd); do
-        if [ -e /home/"${user}"/.local/share/applications ];then
-            /usr/share/render-menu-options/render-menu-options.sh "/home/"${user}"/.local/share/applications/"
-        fi
-    done
-    # Nativos
-    /usr/share/render-menu-options/render-menu-options.sh '/usr/share/applications/'
-    # Flatpak
-    /usr/share/render-menu-options/render-menu-options.sh '/var/lib/flatpak/exports/share/applications'
-    
 fi
 
