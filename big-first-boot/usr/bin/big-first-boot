@@ -65,5 +65,8 @@ if [ ! -e "/livefs-pkgs.txt" ]; then
     
     # mostrar * ao digitar senha no terminal
     echo "Defaults pwfeedback" | tee -a /etc/sudoers
+    
+    # Fix polkit error
+    rm /etc/pam.d/polkit-1
 fi
 
