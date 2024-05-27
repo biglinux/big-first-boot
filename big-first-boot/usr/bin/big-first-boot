@@ -4,6 +4,25 @@
 # systemctl stop NetworkManager-wait-online
 # systemctl disable NetworkManager-wait-online
 
+if grep -q wayland /proc/cmdline; then
+
+echo '[General]
+DisplayServer=wayland
+GreeterEnvironment=QT_WAYLAND_SHELL_INTEGRATION=layer-shell
+
+[Wayland]
+CompositorCommand=kwin_wayland --drm --no-lockscreen --no-global-shortcuts --locale1' > /etc/sddm.conf.d/10-wayland.conf
+
+else
+    if [[ -e /etc/gdm/custom.conf ]]; then
+        sed -i 's| *#*WaylandEnable=false|WaylandEnable=false|g' /etc/gdm/custom.conf
+    fi
+
+    if [[ -e /etc/sddm.conf.d/10-wayland.conf ]]; then
+        rm -f /etc/sddm.conf.d/10-wayland.conf
+    fi
+fi
+    
 if [ ! -e "/livefs-pkgs.txt" ]; then
 
     #Enable automatic update grub and configure timeshift
