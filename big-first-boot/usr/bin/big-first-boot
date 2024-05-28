@@ -13,6 +13,8 @@ GreeterEnvironment=QT_WAYLAND_SHELL_INTEGRATION=layer-shell
 [Wayland]
 CompositorCommand=kwin_wayland --drm --no-lockscreen --no-global-shortcuts --locale1' > /etc/sddm.conf.d/10-wayland.conf
 
+sed -i 's|livecd.desktop|livecdWayland.desktop|g' /etc/sddm.conf
+
 else
     if [[ -e /etc/gdm/custom.conf ]]; then
         sed -i 's| *#*WaylandEnable=false|WaylandEnable=false|g' /etc/gdm/custom.conf
