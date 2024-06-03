@@ -15,6 +15,9 @@ CompositorCommand=kwin_wayland --drm --no-lockscreen --no-global-shortcuts --loc
 
 sed -i 's|livecd.desktop|livecdWayland.desktop|g' /etc/sddm.conf
 
+echo '[Last]
+Session=/usr/share/wayland-sessions/plasmawayland.desktop' > /var/lib/sddm/state.conf
+
 else
     if [[ -e /etc/gdm/custom.conf ]]; then
         sed -i 's| *#*WaylandEnable=false|WaylandEnable=false|g' /etc/gdm/custom.conf
@@ -24,7 +27,7 @@ else
         rm -f /etc/sddm.conf.d/10-wayland.conf
     fi
 fi
-    
+
 if [ ! -e "/livefs-pkgs.txt" ]; then
 
     #Enable automatic update grub and configure timeshift
